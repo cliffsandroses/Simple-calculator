@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator AngularJS app</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom right, #effcf3, #008080); /* Gradient background */
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .calculator {
+      background: linear-gradient(to bottom right, #555187, #00ffff); /* Gradient background */
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      width: 320px;
+    }
+
+    .calculator .output {
+      width: calc(100% - 10px);
+      margin-bottom: 10px;
+      padding: 10px;
+      font-size: 24px;
+      text-align: right;
+      border: none;
+      border-radius: 5px;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .button {
+      flex: 1;
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
+      margin: 5px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      background-color: #f0f0f0;
+      transition: background-color 0.3s ease;
+      border-radius: 10%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .button:hover {
+      background-color: #ddd;
+    }
+  </style>
+</head>
+<body>
+
+<div class="calculator text-right">{{funcT}}
+  <div class="output" id="display">{{ calValue }}</div>
+  <div class="row">
+    <div class="button" (click)  = "onClickValue('c', 'function')">C</div>
+    <div class="button" (click)  = "onClickValue('^', 'function')">^</div>
+    <div class="button" (click)  = "onClickValue('!', 'function')">!</div>
+    <div class="button" (click)  = "onClickValue('√', 'function')">√</div>
+  </div>
+  <div class="row">
+    <div class="button" (click)  = "onClickValue('7', 'number')">7</div>
+    <div class="button" (click)  = "onClickValue('8', 'number')">8</div>
+    <div class="button" (click)  = "onClickValue('9', 'number')">9</div>
+    <div class="button" (click)  = "onClickValue('/', 'function')">/</div>
+  </div>
+  <div class="row">
+    <div class="button" (click)  = "onClickValue('4', 'number')">4</div>
+    <div class="button" (click)  = "onClickValue('5', 'number')">5</div>
+    <div class="button" (click)  = "onClickValue('6', 'number')">6</div>
+    <div class="button" (click)  = "onClickValue('*', 'function')">*</div>
+  </div>
+  <div class="row">
+    <div class="button" (click)  = "onClickValue('1', 'number')">1</div>
+    <div class="button" (click)  = "onClickValue('2', 'number')">2</div>
+    <div class="button" (click)  = "onClickValue('3', 'number')">3</div>
+    <div class="button" (click)  = "onClickValue('-', 'function')">-</div>
+  </div>
+  <div class="row">
+    <div class="button" (click)  = "onClickValue('0', 'number')">0</div>
+    <div class="button" (click)  = "onClickValue('.', 'number')">.</div>
+    <div class="button" (click)  = "onClickValue('+', 'function')">+</div>
+    <div class="button" (click)  = "onClickValue('=', 'function')">=</div>
+  </div>
+</div>
+
+<script>
+  function appendNumber(number) {
+    let display = document.getElementById('display');
+    display.textContent += number;
+  }
+
+  function appendOperator(operator) {
+    let displayValue = document.getElementById('display').textContent;
+    if (displayValue !== '' && !isNaN(displayValue.charAt(displayValue.length - 1))) {
+      document.getElementById('display').textContent += operator;
+    }
+  }
+
+  function appendDecimal() {
+    let displayValue = document.getElementById('display').textContent;
+    if (displayValue === '' || !displayValue.includes('.')) {
+      document.getElementById('display').textContent += '.';
+    }
+  }
+
+  function clearDisplay() {
+    document.getElementById('display').textContent = '';
+  }
+
+  function factorial() {
+    let displayValue = parseFloat(document.getElementById('display').textContent);
+    if (!isNaN(displayValue) && displayValue >= 0 && Number.isInteger(displayValue)) {
+      let result = 1;
+      for (let i = 2; i <= displayValue; i++) {
+        result *= i;
+      }
+      document.getElementById('display').textContent = result;
+    } else {
+      alert('Invalid input for factorial');
+    }
+  }
+
+  function squareRoot() {
+    let displayValue = parseFloat(document.getElementById('display').textContent);
+    if (!isNaN(displayValue) && displayValue >= 0) {
+      document.getElementById('display').textContent = Math.sqrt(displayValue);
+    } else {
+      alert('Invalid input for square root');
+    }
+  }
+
+  function calculate() {
+    let displayValue = document.getElementById('display').textContent;
+    try {
+      let result = eval(displayValue);
+      document.getElementById('display').textContent = result;
+    } catch (error) {
+      alert('Invalid expression');
+    }
+  }
+</script>
+
+</body>
+</html>
